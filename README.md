@@ -127,7 +127,7 @@ Cuando haya funcionado, verás los indicadores con valores y las gráficas indic
 
 ## FAQ
 
-- **P**. ¿Còmo agrego un volumen que contenga el archivo de configuración de mosquitto?. **R**. Realiza los siguientes pasos.
+- **P**. ¿Cómo agrego un volumen que contenga el archivo de configuración de mosquitto?. **R**. Realiza los siguientes pasos.
 
     - Detener el contenedor de Mosquitto 
     
