@@ -72,11 +72,11 @@ Para arrancar el entorno necesario, puedes usar los siguientes comandos.
 6. Asegurate que los nodos function contienen el código correcto.
     Nodo Temperatura
 
-    `
+    ``
     msg.payload = msg.payload.temp;
     msg.topic = "Temperatura";
     return msg;
-    `
+    ``
 3. Comprueba que tu broker mosquitto sea accesible desde el exterior del contenedor. La forma fácil de hacerlo, es verificar que el nodo MQTT del flow indique ```conectado```.
 
 ### Instrucciónes de operación
