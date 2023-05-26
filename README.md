@@ -69,143 +69,97 @@ Para arrancar el entorno necesario, puedes usar los siguientes comandos.
 3. Asegurate de tener instalados los nodos ```node-red-dashboard``` en nodeRed.
 4. Importa el archivo flows.json a nodeRed y haz clic en el boton **Deploy**.
 5. Comprueba que el nodo MQTT apunte al servidor de tu broker local. Si usas Docker Compose, usa el nombre de la aplicación de Mosquitto usado en el archivo compose.yaml como nombre de dominio, en nuestro caso, ```mosquitto```. Si usas una instalación local, usa ```localhost``` o ```127.0.0.1```. Si usas un broker publico usa preferentemente la IP del broker en lugar del nombre de dominio.
-6. Asegurate que los nodos function contienen el código correcto.
+6. Verifica que todos los nodos JSON estén configurados para siempre convertir a JSON.
+7. Asegurate que los nodos function contienen el código correcto.
     Nodo Temperatura
 
-    ``
+    ```
     msg.payload = msg.payload.temp;
     msg.topic = "Temperatura";
     return msg;
-    ``
-3. Comprueba que tu broker mosquitto sea accesible desde el exterior del contenedor. La forma fácil de hacerlo, es verificar que el nodo MQTT del flow indique ```conectado```.
+    ```
+    Nodo Humedad
+    ```
+    msg.payload = msg.payload.hum;
+    msg.topic = "Humedad";
+    return msg;
+    ```
+    Nodo Temperatura API
+    ```
+    global.set ("tempAPI", msg.payload.main.temp);
+    msg.payload = msg.payload.main.temp;
+    msg.topic = "Temperatura";
+    return msg;
+    ```
+    Nodo Humedad API
+    ```
+    msg.payload = msg.payload.main.humidity;
+    global.set ("humAPI", msg.payload);
+    msg.topic = "Humedad";
+    return msg;
+    ```
+8. Asegurate de configurar los nodos dashboard para que se representen en una pestaña y un grupo existente.
+9. Verifica que el nodo `inject` esté lanzando un timestamp cada minuto.
+10. Comprueba que tu broker mosquitto sea accesible desde el exterior del contenedor. La forma fácil de hacerlo, es verificar que el nodo MQTT del flow indique ```conectado```.
 
 ### Instrucciónes de operación
 
 1. Dirígete al dashboard en [localhost:1880/ui](http://locahost:1880/ui/)
-2. Espera al menos 2 minutos despues de haber importado el flow y haber hecho clic en el botón **Deploy** para observar
-
-
-
-
-
-
-
-
-Estas son las instrucciones para crear el flow desde cero. Este repositorio incluye el archivo JSON con el Flow funcional.
-
-1. Crear un nuevo flow
-2. Agregar un nodo mqtt
-	- Agregar un nuevo broker y agregar únicamente la url
-	- Server: ```mosquitto``` (o el nombre de tu aplicaciòn)
-	- Tema: ```codigoIoT/mqtt/clima```
-	- Output: a String
-3. Agregar un nodo JSON. Siempre convertir a JavaScript Object
-4. Agregar dos nodos function
-
-Nodo function temperatura
-
-```
-msg.payload = msg.payload.temp;
-msg.topic = "Temperatura";
-return msg;
-```
-Nodo function humedad
-
-```
-msg.payload = msg.payload.hum;
-msg.topic = "Humedad";
-return msg;
-```
-
-5. Crear una pestaña y dos grupos de informacion
-- Pestaña: Clima local
-- Grupo1: Indicadores
-- Grupo2: Gráfica
-6. Agregar 2 nodos gauge y configurarlos
-- Asociarlos al grupo indicadores
-- Determine etiquetas y rangos
-7. Agregar el nodo chart
-- Asociarlos al grupo indicadores
-8. Hacer clic en Deploy y consultar el [Dashboard](http://localhost:1880/ui)
-9. Enviar un mensaje MQTT al broker local con los valores de temperatura y humedad como temp y hum. Ejemplo:
-
+2. Espera al menos 2 minutos despues de haber importado el flow y haber hecho clic en el botón **Deploy** para observar datos en el bloque API
+3. Envía al menos dos mensajes MQTT que incluyan un JSON con la temperatura y la humedad al tema `codigoIoT/mqtt/clima` de tu broker local. Ejemplo.
     ```
-    docker exec -it [id_contenedor] mosquitto_pub -h localhost -t codigoIoT/mqtt/clima -m '{"temp":19,"hum":51}'
+    docker exec -it [id_contenedor] mosquitto_pub -h localhost -t codigoIoT/mqtt/clima -m '{"temp":23,"hum":50}'
     ```
-
-
-
-### Instrucciones de preparación del entorno
-
-Para ejecutar este flow, es necesario lo siguiente.
-1. Detener el contenedor de Mosquitto.
-
-    ```
-    docker stop [id_contenedor]
-    ```
-
-2. Crear el directorio donde se colocará el archivo msoquitto.conf
-
-    ```
-    mkdir -p ~/DockerVolumes/Mosquitto/config
-    ```
-
-3. Agregar al directorio creado el archivo mosquitto.conf ubicado en este repositorio.
-4. Detener Docker Compose.
-
-    ```
-    docker compose stop
-    ```
-5. Levantar de nuevo Docker Compose
-
-    ```
-    docker compose up -d
-    ```
-
-6. Arrancar el contenedor de NodeRed con el comando
-        
-    ```
-    docker start $(docker ps -a -q)
-    ```
-
-2. Dirigirse a [localhost:1880](http://localhost:1880/)
-3. Importar el flow desde el repositorio
-4. Hacer clic en el boton Deploy
-
-### Instrucciones de operación
-
-Para ver el resultado de este flow es necesario enviar un mensaje MQTT. Puedes hacerlo con el broker MQTT local en Docker Compose.
-
-```
-docker exec -it [id_contenedor] mosquitto_pub -h localhost -t codigoIoT/mqtt/clima -m '{"temp":19,"hum":51}'
-```
-
-Deberás observar cómo se actualizan los indicadores de aguja. 
-
-Para que se dibujen las lineas en la gráfica historica, necesitas enviar al menos un segundo dato. Puedes enviar de nuevo el mismo comando.
 
 ## Resultados
 
-A continuación puede verse una vista previa del resultado de este flow.
+Cuando haya funcionado, verás los indicadores con valores y las gráficas indicando los cambios históricos.
 
-![](https://github.com/hugoescalpelo/flow4-nodeRed-docker-compose/blob/main/imagenes/Screenshot%20from%202023-05-25%2001-12-03.png)
+![](https://github.com/hugoescalpelo/flow5-clima-api-docker-compose/blob/main/Imagenes/Screenshot%20from%202023-05-26%2000-18-42.png)
 
-![](https://github.com/hugoescalpelo/flow4-nodeRed-docker-compose/blob/main/imagenes/Screenshot%20from%202023-05-25%2001-12-32.png)
+![](https://github.com/hugoescalpelo/flow5-clima-api-docker-compose/blob/main/Imagenes/Screenshot%20from%202023-05-26%2001-19-39.png)
 
-
+**Consejo**: Intenta cambiar el rango de las gráficas historicas a 1 semana y deja el flow funcionando por varios días, observarás la dinamica de clima.
 
 ## Evidencias
 
- [TikTok](https://www.tiktok.com/@hugoescalpelo/video/7236974959220755717)
+
+
+## FAQ
+
+- **P**. ¿Còmo agrego un volumen que contenga el archivo de configuración de mosquitto?. **R**. Realiza los siguientes pasos.
+
+    - Detener el contenedor de Mosquitto 
+    
+        ```docker stop [id_contenedor]```
+        
+    - Eliminar el contenedor de Mosquitto
+    
+        ```docker rm [id_contenedor]```
+        
+    - Eliminar la imagen de Mosquitto
+
+        ```
+        docker images
+        docker rmi [id_imagen]
+        ```
+    - Detener docker compose. Hay que entrar al directorio de compose
+
+        ```docker compose stop```
+        
+    - Actualizar el archivo compose para que use el volumenes. 
+
+    - Agrega tu archivo mosquitto.conf. Puedes tomar como ejemplo el archivo de configuración de mi repositorio [servidor-IoT-basico-docker-compose](https://github.com/hugoescalpelo/servidor-IoT-basico-docker-compose)
+
+    - Levantar docker compose
+
+        ```docker compose up -d```
 
 ## Problemas comunes
 
 - Si usas un broker publico, usa la IP del broker ya que este puede cambiar en cualquier momento y NodeRed no actualiza las IPs luego de configurar un dominio. Para conocer la IP de un broker usa el comando ```nslookup [dominio_broker]```.
 - Si la información recibida en el nodo MQTT no es detectada por el nodo JSON, asegurate de que es expresada como Sring.
 - Si el nodo JSON marca error o caracter no esperado, asegurate de que el mensaje MQTT que enviaste describe correctamente un JSON. Ejemplo: `docker exec -it [id_contenedor] mosquitto_pub -h localhost -t codigoIoT/mqtt/clima -m '{"temp":23,"hum":50}'`
-
-# Notas
-- Este repositorio cuenta con las instrucciones para crear el flow pero también incluye el archivo JSON resultante, así que solo tienes que importarlo a nodeRed.
 
 # Créditos
 
