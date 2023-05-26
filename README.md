@@ -86,7 +86,6 @@ Para arrancar el entorno necesario, puedes usar los siguientes comandos.
     ```
     Nodo Temperatura API
     ```
-    global.set ("tempAPI", msg.payload.main.temp);
     msg.payload = msg.payload.main.temp;
     msg.topic = "Temperatura";
     return msg;
@@ -94,7 +93,6 @@ Para arrancar el entorno necesario, puedes usar los siguientes comandos.
     Nodo Humedad API
     ```
     msg.payload = msg.payload.main.humidity;
-    global.set ("humAPI", msg.payload);
     msg.topic = "Humedad";
     return msg;
     ```
