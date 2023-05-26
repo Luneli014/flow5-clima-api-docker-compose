@@ -107,6 +107,7 @@ Para arrancar el entorno necesario, puedes usar los siguientes comandos.
 1. Dirígete al dashboard en [localhost:1880/ui](http://locahost:1880/ui/)
 2. Espera al menos 2 minutos despues de haber importado el flow y haber hecho clic en el botón **Deploy** para observar datos en el bloque API
 3. Envía al menos dos mensajes MQTT que incluyan un JSON con la temperatura y la humedad al tema `codigoIoT/mqtt/clima` de tu broker local. Ejemplo.
+
     ```
     docker exec -it [id_contenedor] mosquitto_pub -h localhost -t codigoIoT/mqtt/clima -m '{"temp":23,"hum":50}'
     ```
