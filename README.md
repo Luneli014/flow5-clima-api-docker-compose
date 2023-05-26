@@ -115,9 +115,9 @@ Para arrancar el entorno necesario, puedes usar los siguientes comandos.
 
 Cuando haya funcionado, verás los indicadores con valores y las gráficas indicando los cambios históricos.
 
-![](https://github.com/hugoescalpelo/flow5-clima-api-docker-compose/blob/main/Imagenes/Screenshot%20from%202023-05-26%2000-18-42.png)
+![](https://github.com/hugoescalpelo/flow5-clima-api-docker-compose/blob/main/Imagenes/Screenshot%20from%202023-05-26%2000-18-42.png?raw=true)
 
-![](https://github.com/hugoescalpelo/flow5-clima-api-docker-compose/blob/main/Imagenes/Screenshot%20from%202023-05-26%2001-19-39.png)
+![](https://github.com/hugoescalpelo/flow5-clima-api-docker-compose/blob/main/Imagenes/Screenshot%20from%202023-05-26%2001-19-39.png?raw=true)
 
 **Consejo**: Intenta cambiar el rango de las gráficas historicas a 1 semana y deja el flow funcionando por varios días, observarás la dinamica de clima.
 
