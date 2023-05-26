@@ -71,39 +71,40 @@ Para arrancar el entorno necesario, puedes usar los siguientes comandos.
 5. Comprueba que el nodo MQTT apunte al servidor de tu broker local. Si usas Docker Compose, usa el nombre de la aplicación de Mosquitto usado en el archivo compose.yaml como nombre de dominio, en nuestro caso, ```mosquitto```. Si usas una instalación local, usa ```localhost``` o ```127.0.0.1```. Si usas un broker publico usa preferentemente la IP del broker en lugar del nombre de dominio.
 6. Verifica que todos los nodos JSON estén configurados para siempre convertir a JSON.
 7. Asegurate que los nodos function contienen el código correcto.
-    Nodo Temperatura
+
+    Nodo function Temperatura
 
     ```
     msg.payload = msg.payload.temp;
     msg.topic = "Temperatura";
     return msg;
     ```
-    Nodo Humedad
+    Nodo function Humedad
     ```
     msg.payload = msg.payload.hum;
     msg.topic = "Humedad";
     return msg;
     ```
-    Nodo Temperatura API
+    Nodo function Temperatura API
     ```
     msg.payload = msg.payload.main.temp;
     msg.topic = "Temperatura";
     return msg;
     ```
-    Nodo Humedad API
+    Nodo function Humedad API
     ```
     msg.payload = msg.payload.main.humidity;
     msg.topic = "Humedad";
     return msg;
     ```
 8. Asegurate de configurar los nodos dashboard para que se representen en una pestaña y un grupo existente.
-9. Verifica que el nodo `inject` esté lanzando un timestamp cada minuto.
-10. Comprueba que tu broker mosquitto sea accesible desde el exterior del contenedor. La forma fácil de hacerlo, es verificar que el nodo MQTT del flow indique ```conectado```.
+9. Verifica que el nodo **inject** esté lanzando un timestamp cada minuto.
+10. Comprueba que tu broker mosquitto sea accesible desde el exterior del contenedor. La forma fácil de hacerlo, es verificar que el nodo MQTT del flow indique **conectado**.
 
 ### Instrucciónes de operación
 
 1. Dirígete al dashboard en [localhost:1880/ui](http://locahost:1880/ui/)
-2. Espera al menos 2 minutos despues de haber importado el flow y haber hecho clic en el botón **Deploy** para observar datos en el bloque API
+2. Espera al menos 2 minutos despues de haber importado el flow y haber hecho clic en el botón **Deploy** para observar datos en el bloque API.
 3. Envía al menos dos mensajes MQTT que incluyan un JSON con la temperatura y la humedad al tema `codigoIoT/mqtt/clima` de tu broker local. Ejemplo.
 
     ```
@@ -122,7 +123,7 @@ Cuando haya funcionado, verás los indicadores con valores y las gráficas indic
 
 ## Evidencias
 
-
+[]()
 
 ## FAQ
 
@@ -154,7 +155,7 @@ Cuando haya funcionado, verás los indicadores con valores y las gráficas indic
 
         ```docker compose up -d```
 
-## Problemas comunes
+## Problemas comúnes
 
 - Si usas un broker publico, usa la IP del broker ya que este puede cambiar en cualquier momento y NodeRed no actualiza las IPs luego de configurar un dominio. Para conocer la IP de un broker usa el comando ```nslookup [dominio_broker]```.
 - Si la información recibida en el nodo MQTT no es detectada por el nodo JSON, asegurate de que es expresada como Sring.
