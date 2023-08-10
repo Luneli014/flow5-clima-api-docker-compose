@@ -163,7 +163,7 @@ Cuando haya funcionado, verás los indicadores con valores y las gráficas indic
 
 # Créditos
 
-Desarrollado por Hugo Escalpelo
-- [hugoescalpelo.com](https://hugoescalpelo.com/)
-- [Página en Facebook](https://www.facebook.com/Hugo-Escalpelo-Profesional-337708683840136)
-- [GitHub](https://github.com/hugoescalpelo)
+Desarrollado por Karen Luna
+
+- [Página en Instagram](https://www.instagram.com/karen.luna14/)
+- [GitHub](https://github.com/Luneli014)
